@@ -78,6 +78,7 @@ export default function UpdateCourse() {
     },
   });
 
+
   // Xử lý submit form
   const handleSubmit = async (values: Partial<Course>) => {
     if (!token || !id) return;
@@ -85,8 +86,10 @@ export default function UpdateCourse() {
     const formData = new FormData();
     formData.append("title", values.title || "");
     formData.append("description", values.description || "");
+
     formData.append("category_id", String(values.category_id)); // Ép kiểu thành số
     formData.append("price", String(values.price)); // Ép kiểu thành số thực
+
     formData.append("url_video", values.url_video || "");
   
     if (selectedFile) {
@@ -94,8 +97,8 @@ export default function UpdateCourse() {
     }
      
     console.log("FormData content:", Object.fromEntries(formData.entries()));
-    
     mutate(formData);
+
   };
   
   const handleFileChange = (info: UploadChangeParam<UploadFile>) => {
