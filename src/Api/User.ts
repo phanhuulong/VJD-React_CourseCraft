@@ -28,6 +28,7 @@ export const getUser = async (): Promise<User> => {
         const response = await axios.get<User>('/api/user', {
             headers: {
                 Authorization: `Bearer ${token}`,
+                "Content-Type": 'application/json',
             },
         });
         return response.data; // Trả về dữ liệu người dùng

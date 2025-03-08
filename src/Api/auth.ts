@@ -18,7 +18,9 @@ export const loginUser = async (email: string, password: string): Promise<LoginR
         const response = await axios.post<LoginResponse>('/api/login', { email, password }, {
             headers: {
                 "Content-Type": "application/json",
+
                 "Accept": "application/json"
+
             }
         });
 

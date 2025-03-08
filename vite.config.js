@@ -13,7 +13,6 @@ export default defineConfig({
         headers:{
           headers: {
             Accept: 'application/json',
-            "Content-Type": 'application/json',
           }
         }
       }

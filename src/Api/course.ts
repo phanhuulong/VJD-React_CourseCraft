@@ -55,6 +55,7 @@ export const deleteCourse = async (id: number) => {
         const res = await axios.delete(`/api/courses/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
+                "Content-Type": 'application/json',
             },
         });
 
@@ -74,7 +75,9 @@ export const updateCourse = async (id: number, formData: FormData) => {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("Authentication token missing!");
     
-    const res = await axios.put(`/api/courses/${id}`, formData, {
+    formData.append('_method', 'PUT'); 
+    const res = await axios.post(`/api/courses/${id}`, formData, {
+
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
@@ -103,6 +106,8 @@ export const getCoursesByTeacher = async (teacherId: number): Promise<Course[]> 
         const res = await axios.get(`/api/courses/teacher/${teacherId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
+                "Content-Type": 'application/json',
+
             },
         });
         return Array.isArray(res.data) ? res.data : [];
@@ -118,6 +123,7 @@ export const getCoursesExceptOwn = async (): Promise<Course[]> => {
         const res = await axios.get("/api/courses/except-own", {
             headers: {
                 Authorization: `Bearer ${token}`,
+            "Content-Type": 'application/json',
             },
         });
         return Array.isArray(res.data) ? res.data : [];

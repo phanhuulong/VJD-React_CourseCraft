@@ -45,9 +45,39 @@ export default function UpdateCourse() {
       message.success("Course updated successfully!");
       navigate("/my-courses");
     },
-    onError: () => message.error("Failed to update course. Please try again."),
+    onError: (error: any) => {
+      console.error("Error details:", error);
+      
+      // Check if error has response property (from Axios)
+      if (error.response) {
+        const status = error.response.status;
+        
+        if (status === 422) {
+          // Parse validation errors
+          const validationErrors = error.response.data;
+          console.log("Validation errors:", validationErrors);
+          
+          // Display each validation error
+          if (typeof validationErrors === 'object') {
+            Object.entries(validationErrors).forEach(([field, messages]: [string, any]) => {
+              if (Array.isArray(messages)) {
+                messages.forEach((msg: string) => message.error(`${field}: ${msg}`));
+              }
+            });
+          } else {
+            message.error("Validation failed. Please check your form inputs.");
+          }
+        } else if (status === 500) {
+          message.error("Server error. Please try again later.");
+        } else {
+          message.error(`Error (${status}): Please try again.`);
+        }
+      } else {
+        message.error("Failed to update course. Please check your connection.");
+      }
+    },
   });
-  
+
 
   // Xử lý submit form
   const handleSubmit = async (values: Partial<Course>) => {
@@ -56,8 +86,10 @@ export default function UpdateCourse() {
     const formData = new FormData();
     formData.append("title", values.title || "");
     formData.append("description", values.description || "");
-    formData.append("category_id", String(Number(values.category_id))); // Ép kiểu thành số
-    formData.append("price", String(Number(values.price))); // Ép kiểu thành số thực
+
+    formData.append("category_id", String(values.category_id)); // Ép kiểu thành số
+    formData.append("price", String(values.price)); // Ép kiểu thành số thực
+
     formData.append("url_video", values.url_video || "");
   
     if (selectedFile) {
@@ -65,8 +97,8 @@ export default function UpdateCourse() {
     }
      
     console.log("FormData content:", Object.fromEntries(formData.entries()));
-    
-    await updateCourse(values.course_id!, formData);
+    mutate(formData);
+
   };
   
   const handleFileChange = (info: UploadChangeParam<UploadFile>) => {
