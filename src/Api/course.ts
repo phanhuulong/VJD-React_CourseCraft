@@ -28,7 +28,6 @@ export const createCourse = async (formData: FormData) => {
             headers: {
                 "Content-Type": "multipart/form-data",
                 Authorization: `Bearer ${token}`,
-
             },
         });
         return res.data;
@@ -78,6 +77,7 @@ export const updateCourse = async (id: number, formData: FormData) => {
     
     formData.append('_method', 'PUT'); 
     const res = await axios.post(`/api/courses/${id}`, formData, {
+
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
@@ -107,6 +107,7 @@ export const getCoursesByTeacher = async (teacherId: number): Promise<Course[]> 
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": 'application/json',
+
             },
         });
         return Array.isArray(res.data) ? res.data : [];
