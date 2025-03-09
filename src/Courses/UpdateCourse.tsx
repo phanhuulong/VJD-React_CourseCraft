@@ -147,7 +147,7 @@ export default function UpdateCourse() {
           >
             <Select placeholder="Select Category">
               {categories?.map((category) => (
-                <Option key={category.category_id} value={category.category_id}>
+                <Option key={category.id} value={category.id}>
                   {category.name}
                 </Option>
               ))}

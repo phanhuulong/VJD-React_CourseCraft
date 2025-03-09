@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useState } from 'react';
 // User interface
 export interface User {
-    user_id: number;
+    id: number;
     first_name: string;
     last_name: string;
     email: string;

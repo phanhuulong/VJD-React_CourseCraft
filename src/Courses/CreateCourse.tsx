@@ -67,7 +67,7 @@ export default function CreateCourse() {
         formData.append("category_id", String(values.category_id));
         formData.append("price", String(values.price));
         formData.append("url_video", values.url_video);
-        formData.append("teacher_id", String(user?.user_id ?? 0));
+        formData.append("teacher_id", String(user?.id ?? 0));
     
         if (selectedFile) {
             formData.append("thumbnail_course", selectedFile);
@@ -101,7 +101,7 @@ export default function CreateCourse() {
                 <Form.Item label="Category" name="category_id" rules={[{ required: true, message: "Please select a category!" }]}> 
                     <Select placeholder="Select category" loading={isLoading}>
                         {categories.map((category) => (
-                            <Option key={category.category_id} value={category.category_id}>{category.name}</Option>
+                            <Option key={category.id} value={category.id}>{category.name}</Option>
                         ))}
                     </Select>
                 </Form.Item>

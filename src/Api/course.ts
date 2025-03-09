@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export interface Course {
-    course_id?: number;
+    id?: number;
     title: string;
     description: string;
     teacher_id?: number;

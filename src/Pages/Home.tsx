@@ -6,6 +6,7 @@ const { Title, Text } = Typography;
 import { BASE_URL } from "../config/config";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../Context/AppContext";
+
 export default function Home() {
     const { token, user } = useContext(AppContext) ?? { token: null, user: null };
 
@@ -29,11 +30,18 @@ export default function Home() {
             {/* Error Handling */}
             {isError && <Text type="danger">{(error as Error).message}</Text>}
 
+            {/* No Courses Available */}
+            {!isLoading && !isError && courses?.length === 0 && (
+                <div className="flex justify-center items-center h-40">
+                    <Text>No courses available at the moment.</Text>
+                </div>
+            )}
+
             {/* Courses Grid */}
             <Row gutter={[16, 16]}>
                 {courses?.map((course) => (
-                    <Col key={course.course_id} xs={24} sm={12} md={8} lg={6}>
-                        <Card onClick={() => navigate(`/course/${course.course_id}`)}
+                    <Col key={course.id} xs={24} sm={12} md={8} lg={6}>
+                        <Card onClick={() => navigate(`/course/${course.id}`)}
                             hoverable
                             cover={
                                 <img

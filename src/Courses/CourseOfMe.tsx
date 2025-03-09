@@ -16,15 +16,15 @@ export default function CourseOfMe() {
     const queryClient = useQueryClient();
 
     const { data: courses, isLoading, isError, error } = useQuery<Course[]>({
-        queryKey: ["courses", user?.user_id],
-        queryFn: () => getCoursesByTeacher(user?.user_id!),
-        enabled: !!user?.user_id,
+        queryKey: ["courses", user?.id],
+        queryFn: () => getCoursesByTeacher(user?.id!),
+        enabled: !!user?.id,
     });
 
     const deleteMutation = useMutation({
         mutationFn: (id: number) => deleteCourse(id),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["courses", user?.user_id] });
+            queryClient.invalidateQueries({ queryKey: ["courses", user?.id] });
         },
     });
 
@@ -56,14 +56,20 @@ export default function CourseOfMe() {
 
             {isError && <Text type="danger">{(error as Error).message}</Text>}
 
+            {!isLoading && !isError && courses?.length === 0 && (
+                <div className="flex justify-center items-center h-40">
+                    <Text>No courses found for this teacher.</Text>
+                </div>
+            )}
+
             <Row gutter={[16, 16]}>
                 {courses?.map((course) => (
-                    <Col key={course.course_id} xs={24} sm={12} md={8} lg={6}>
+                    <Col key={course.id} xs={24} sm={12} md={8} lg={6}>
                         <Card 
                             hoverable
                             className="rounded-lg shadow-lg transition duration-300 hover:shadow-xl"
                             cover={
-                                <img onClick={() => navigate(`/course/${course.course_id}`)}
+                                <img onClick={() => navigate(`/course/${course.id}`)}
                                     src={`${BASE_URL}${course.thumbnail_course}`}
                                     alt={course.title}
                                     className="h-48 object-cover rounded-t-lg"
@@ -76,7 +82,7 @@ export default function CourseOfMe() {
                                 <Button
                                     type="primary"
                                     icon={<EditOutlined />}
-                                    onClick={() => navigate(`/update-course/${course.course_id}`)}
+                                    onClick={() => navigate(`/update-course/${course.id}`)}
                                     className="w-full"
                                 >
                                     Update
@@ -85,7 +91,7 @@ export default function CourseOfMe() {
                                     danger
                                     icon={<DeleteOutlined />}
                                     loading={deleteMutation.isPending}
-                                    onClick={() => handleDelete(course.course_id!)}
+                                    onClick={() => handleDelete(course.id!)}
                                     className="w-full"
                                 >
                                     Delete

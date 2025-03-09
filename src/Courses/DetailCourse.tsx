@@ -16,6 +16,16 @@ const DetailCourse: React.FC = () => {
         enabled: !!courseId,
     });
 
+    // echo.private(`course.comments.${courseId}`)
+    // .listen('CommentCreated', (event) => {
+    //     console.log("New comment received:", event.comment);
+    //     // Cập nhật giao diện với bình luận mới
+    // });
+    // .listen('.comment.created', function (e) {
+    //     ....
+    // });
+    //  const replies = comments.filter(comment => comment.parent_id === parentCommentId);
+
     if (isLoading) return <Spin size="large" />;
     if (error) return <Alert message="Error" description={String(error)} type="error" showIcon />;
 

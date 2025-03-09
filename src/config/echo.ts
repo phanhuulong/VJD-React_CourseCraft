@@ -30,3 +30,12 @@ window.Echo = new Echo({
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     forceTLS: true
 });
+
+// useEffect(() => {
+//   window.Echo.private(`course.comments.${courseId}`).listen(
+//       'CommentCreated',
+//       (e) => {
+//           setComments((comments) => [...comments, e.comment]);
+//       }
+//   );
+// }, [courseId]);
